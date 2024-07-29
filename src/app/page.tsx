@@ -1,121 +1,173 @@
+"use client";
+
+import Icon from "@/components/ui/Icon";
+import LabelInput from "@/components/ui/LabelInput";
+import LoginButton from "@/components/ui/LoginButton";
+import Testimonials from "@/components/ui/Testimonials";
+import Window from "@/components/Window";
+import pb from "@/lib/pocketbase";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+
 export default function Home() {
+  const { register, handleSubmit } = useForm();
+
+  async function login() {
+    const authData = await pb
+      .collection("users")
+      .authWithOAuth2({ provider: "github" });
+    console.log(pb.authStore.model?.email);
+    console.log(pb.authStore.isValid);
+  }
+
+  async function loginWithCreds(data: any) {
+    console.log(data);
+  }
+  async function loginWithDiscord() {
+    console.log("Ji discord");
+  }
+  async function loginWithGithub() {
+    console.log("Ji github");
+  }
+
   return (
-    <main>
-      <h1>Brazio Key</h1>
+    <main className="w-100 min-h-[100vh] flex items-center justify-center bg-slate-200">
+      <Window className="flex gap-4 items-center justify-between p-4">
+        {/* Left Section */}
+        <div className="w-1/2 bg-gray-200 h-full rounded-lg p-5 flex flex-col justify-between">
+          {/* Red Dot */}
+          <div
+            onClick={login}
+            className="w-6 h-6 rounded-lg bg-red-400 flex items-center justify-center"
+          >
+            {/* White dot in between */}
+            <div className="w-2 h-2 rounded-lg bg-white"></div>
+          </div>
+          {/* Content */}
+          <div className="flex flex-col gap-6">
+            <h1 className="text-3xl font-semibold">
+              Let us manage your{" "}
+              <span className="font-bold text-red-400">passwords</span>.
+            </h1>
+            <p className="opacity-60">
+              Keep your passwords safe and secure with Brazio Key&trade;
+              password manager.
+            </p>
+          </div>
+          {/* Quotes */}
+          <div>
+            <Testimonials
+              data={[
+                {
+                  author: "Dennis Ritchie",
+                  avatar:
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/220px-Dennis_Ritchie_2011.jpg",
+                  position: "Software Engineer",
+                  content:
+                    "The software is very easy-to-use and I can easily manage my passwords.",
+                },
+                {
+                  author: "Imran Khan",
+                  avatar:
+                    "https://media.licdn.com/dms/image/C4D03AQH6nyAzPqP5TA/profile-displayphoto-shrink_200_200/0/1535015983371?e=2147483647&v=beta&t=BeMq1IWHTYOP8YKtLUQY9A-jPYK7hq1tFGNkHCYlCf0",
+                  position: "Ex-Prime Minister",
+                  content:
+                    "I love this app, it helps me keep all my passwords safe.",
+                },
+              ]}
+            />
+          </div>
+        </div>
+        <div className="w-1/2 h-full p-8 flex flex-col gap-2">
+          <h1 className="text-2xl font-semibold">Get Started</h1>
+          <p className="opacity-60 text-sm">
+            Login or get started with your account.
+          </p>
+          <div className="h-8"></div>
+          <form
+            className="flex flex-col gap-4"
+            onSubmit={handleSubmit(loginWithCreds)}
+          >
+            <LabelInput
+              name="email"
+              register={register}
+              type="email"
+              label="Email Address"
+            />
+            <LabelInput
+              name="pin"
+              register={register}
+              type="number"
+              label="PIN Code"
+              attributes={{ min: 1000, max: 9999 }}
+            />
+            <button
+              type="submit"
+              onClick={loginWithCreds}
+              className="text-sm bg-red-500 text-slate-50 font-semibold rounded-lg py-4 shadow-md transition-all opacity-70 hover:opacity-80"
+            >
+              Login
+            </button>
+          </form>
+          <div className="flex h-12 items-center justify-center gap-4">
+            <div className="h-1 bg-gray-200 w-[40%] rounded-full"></div>
+            <span className="text-xs font-semibold opacity-70 select-none">
+              or
+            </span>
+            <div className="h-1 bg-gray-200 w-[40%] rounded-full"></div>
+          </div>
+          <div className="p-2 flex gap-2 items-center justify-center">
+            <LoginButton
+              name="Discord"
+              icon="discord"
+              onClick={loginWithDiscord}
+              color="#7289da"
+            />
+            <LoginButton
+              name="Github"
+              icon="github"
+              onClick={loginWithGithub}
+              color="#2b3137"
+            />
+          </div>
+          <div className="text-xs text-center font-semibold opacity-60 pt-4">
+            &copy; 2020-2024 Braze Dev. All rights reserved.
+          </div>
+        </div>
+      </Window>
     </main>
   );
 }
 
-// import Image from "next/image";
+// "use client";
+
+// import pb from "@/lib/pocketbase";
+// import { useEffect, useState } from "react";
 
 // export default function Home() {
+//   const [logged, setLogged] = useState(false);
+
+//   useEffect(() => {
+//     setLogged(pb.authStore.isValid);
+//   }, []);
+
+//   async function login() {
+//     const authData = await pb
+//       .collection("users")
+//       .authWithOAuth2({ provider: "discord" });
+//     setLogged(pb.authStore.isValid);
+//   }
+
+//   async function logout() {
+//     await pb.authStore.clear();
+//     setLogged(false);
+//   }
+
 //   return (
-//     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-//       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-//         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-//           Get started by editing&nbsp;
-//           <code className="font-mono font-bold">src/app/page.tsx</code>
-//         </p>
-//         <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-//           <a
-//             className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-//             href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             By{" "}
-//             <Image
-//               src="/vercel.svg"
-//               alt="Vercel Logo"
-//               className="dark:invert"
-//               width={100}
-//               height={24}
-//               priority
-//             />
-//           </a>
-//         </div>
-//       </div>
-
-//       <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-//         <Image
-//           className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-//           src="/next.svg"
-//           alt="Next.js Logo"
-//           width={180}
-//           height={37}
-//           priority
-//         />
-//       </div>
-
-//       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-//         <a
-//           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-//           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           <h2 className="mb-3 text-2xl font-semibold">
-//             Docs{" "}
-//             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-//               -&gt;
-//             </span>
-//           </h2>
-//           <p className="m-0 max-w-[30ch] text-sm opacity-50">
-//             Find in-depth information about Next.js features and API.
-//           </p>
-//         </a>
-
-//         <a
-//           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           <h2 className="mb-3 text-2xl font-semibold">
-//             Learn{" "}
-//             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-//               -&gt;
-//             </span>
-//           </h2>
-//           <p className="m-0 max-w-[30ch] text-sm opacity-50">
-//             Learn about Next.js in an interactive course with&nbsp;quizzes!
-//           </p>
-//         </a>
-
-//         <a
-//           href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-//           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           <h2 className="mb-3 text-2xl font-semibold">
-//             Templates{" "}
-//             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-//               -&gt;
-//             </span>
-//           </h2>
-//           <p className="m-0 max-w-[30ch] text-sm opacity-50">
-//             Explore starter templates for Next.js.
-//           </p>
-//         </a>
-
-//         <a
-//           href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-//           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           <h2 className="mb-3 text-2xl font-semibold">
-//             Deploy{" "}
-//             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-//               -&gt;
-//             </span>
-//           </h2>
-//           <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-//             Instantly deploy your Next.js site to a shareable URL with Vercel.
-//           </p>
-//         </a>
-//       </div>
+//     <main>
+//       {!logged && <button onClick={login}>Login with Discord</button>}
+//       {logged && <h1>Logged in with Discord wtf</h1>}
+//       {logged && <button onClick={logout}>Logout</button>}
 //     </main>
 //   );
 // }
