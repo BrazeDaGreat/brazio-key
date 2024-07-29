@@ -21,16 +21,18 @@ export default function Testimonials({ data }: { data: Testimonial[] }) {
 
   return (
     <div className="flex flex-col gap-2 p-2">
-      <div className="bg-slate-700 p-5 rounded-lg shadow-md flex flex-col gap-5">
+      <div className="bg-slate-700 px-4 py-2 sm:p-5 rounded-lg shadow-md flex flex-col gap-2 sm:gap-5">
         <div className="text-sm text-slate-50">{data[n].content}</div>
         <div className="flex gap-1 text-slate-50">
           <img
             src={data[n].avatar}
-            className="w-10 h-10 object-cover rounded-full"
+            className="w-6 h-6 sm:w-10 sm:h-10 object-cover rounded-full"
           />
           <div className="flex flex-col justify-center">
-            <span className="text-sm">{data[n].author}</span>
-            <span className="text-xs opacity-70">{data[n].position}</span>
+            <span className="text-xs sm:text-sm">{data[n].author}</span>
+            <span className="text-[0.5rem] sm:text-xs opacity-70">
+              {data[n].position}
+            </span>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ interface WindowProps {
 export default function Window(props: WindowProps) {
   return (
     <div
-      className={`${props.className} w-[768px] h-[576px] bg-slate-100 rounded-lg shadow-lg`}
+      className={`${props.className} w-full md:w-[768px] md:h-[576px] bg-slate-100 md:rounded-lg md:shadow-lg`}
     >
       {props.children}
     </div>

@@ -32,9 +32,9 @@ export default function Home() {
 
   return (
     <main className="w-100 min-h-[100vh] flex items-center justify-center bg-slate-200">
-      <Window className="flex gap-4 items-center justify-between p-4">
+      <Window className="flex gap-4 items-center justify-between p-4 flex-col sm:flex-row">
         {/* Left Section */}
-        <div className="w-1/2 bg-gray-200 h-full rounded-lg p-5 flex flex-col justify-between">
+        <div className="sm:w-1/2 gap-4 sm:gap-0 bg-gray-200 sm:min-h-[520px] md:h-full rounded-lg p-4 sm:p-5 flex flex-col justify-between">
           {/* Red Dot */}
           <div
             onClick={login}
@@ -78,7 +78,7 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="w-1/2 h-full p-8 flex flex-col gap-2">
+        <div className="sm:w-1/2 h-full p-8 flex flex-col gap-2">
           <h1 className="text-2xl font-semibold">Get Started</h1>
           <p className="opacity-60 text-sm">
             Login or get started with your account.
