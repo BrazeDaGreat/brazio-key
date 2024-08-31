@@ -21,7 +21,7 @@ export default function Testimonials({ data }: { data: Testimonial[] }) {
 
   return (
     <div className="flex flex-col gap-2 p-2">
-      <div className="bg-slate-700 px-4 py-2 sm:p-5 rounded-lg shadow-md flex flex-col gap-2 sm:gap-5">
+      <div className="bg-red-500 bg-opacity-70 px-4 py-2 sm:p-5 rounded-lg shadow-md flex flex-col gap-2 sm:gap-5">
         <div className="text-sm text-slate-50">{data[n].content}</div>
         <div className="flex gap-1 text-slate-50">
           <img
@@ -41,7 +41,9 @@ export default function Testimonials({ data }: { data: Testimonial[] }) {
           <div
             key={i}
             className={`w-2 h-2 rounded-full cursor-pointer ${
-              i === n ? "bg-gray-800" : "bg-gray-400"
+              i === n
+                ? "bg-red-500 bg-opacity-70 hover:bg-opacity-80"
+                : "bg-red-100"
             }`}
             onClick={() => setN(i)}
           ></div>

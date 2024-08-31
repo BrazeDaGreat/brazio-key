@@ -1,45 +1,54 @@
 "use client";
 
-import Icon from "@/components/ui/Icon";
 import LabelInput from "@/components/ui/LabelInput";
 import LoginButton from "@/components/ui/LoginButton";
 import Testimonials from "@/components/ui/Testimonials";
 import Window from "@/components/Window";
 import pb from "@/lib/pocketbase";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import useLoad from "@/components/hooks/useLoad";
+import { redirect, RedirectType } from "next/navigation";
 
 export default function Home() {
   const { register, handleSubmit } = useForm();
+  const [logged, setLogged] = useState<Boolean>(false);
+  const { loading, jsx } = useLoad();
 
-  async function login() {
-    const authData = await pb
-      .collection("users")
-      .authWithOAuth2({ provider: "github" });
-    console.log(pb.authStore.model?.email);
-    console.log(pb.authStore.isValid);
-  }
+  useEffect(() => {
+    setLogged(pb.authStore.isValid);
+  }, []);
+
+  useEffect(() => {
+    if (logged) {
+      redirect("/web", RedirectType.push);
+    }
+  }, [logged]);
 
   async function loginWithCreds(data: any) {
     console.log(data);
   }
   async function loginWithDiscord() {
-    console.log("Ji discord");
+    loading(true);
+    await pb.collection("users").authWithOAuth2({ provider: "discord" });
+    setLogged(pb.authStore.isValid);
+    loading(false);
   }
   async function loginWithGithub() {
-    console.log("Ji github");
+    loading(true);
+    await pb.collection("users").authWithOAuth2({ provider: "github" });
+    setLogged(pb.authStore.isValid);
+    loading(false);
   }
 
   return (
     <main className="w-100 min-h-[100vh] flex items-center justify-center bg-slate-200">
+      {loading() && jsx()}
       <Window className="flex gap-4 items-center justify-between p-4 flex-col sm:flex-row">
         {/* Left Section */}
         <div className="sm:w-1/2 gap-4 sm:gap-0 bg-gray-200 sm:min-h-[520px] md:h-full rounded-lg p-4 sm:p-5 flex flex-col justify-between">
           {/* Red Dot */}
-          <div
-            onClick={login}
-            className="w-6 h-6 rounded-lg bg-red-400 flex items-center justify-center"
-          >
+          <div className="w-6 h-6 rounded-lg bg-red-400 flex items-center justify-center">
             {/* White dot in between */}
             <div className="w-2 h-2 rounded-lg bg-white"></div>
           </div>

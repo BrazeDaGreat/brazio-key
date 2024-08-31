@@ -21,3 +21,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Contribute
 
 This project is not my main focus, and I won't be continuing its development. Feel free to fork and modify however you like.
+
+## Tech Stack
+
+- Next.js
+- Pocketbase
+- Tailwind
